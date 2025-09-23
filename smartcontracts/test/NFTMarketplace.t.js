@@ -4,22 +4,17 @@ const { ethers } = require("hardhat");
 describe("NFTMarketplace", function () {
   let nftMarketplace;
   let owner, addr1, addr2, addr3;
-  // Khai báo biến
   let LISTING_PRICE;
   let TOKEN_PRICE;
   let HIGHER_PRICE;
 
   beforeEach(async function () {
-    // Gán giá trị cho các biến ở đây
-    // Tại thời điểm này, ethers đã được định nghĩa
     LISTING_PRICE = ethers.utils.parseEther("0.0025");
     TOKEN_PRICE = ethers.utils.parseEther("1");
     HIGHER_PRICE = ethers.utils.parseEther("2");
-    
-    // Lấy các signer
+
     [owner, addr1, addr2, addr3] = await ethers.getSigners();
 
-    // Triển khai hợp đồng
     const NFTMarketplace = await ethers.getContractFactory("NFTMarketplace");
     nftMarketplace = await NFTMarketplace.deploy();
     await nftMarketplace.deployed();
@@ -70,7 +65,6 @@ describe("NFTMarketplace", function () {
         .to.emit(nftMarketplace, 'MarketItemCreated')
         .withArgs(1, addr1.address, nftMarketplace.address, TOKEN_PRICE, false);
 
-      // Kiểm tra token URI và quyền sở hữu
       expect(await nftMarketplace.tokenURI(1)).to.equal(tokenURI);
       expect(await nftMarketplace.ownerOf(1)).to.equal(nftMarketplace.address);
     });
@@ -181,7 +175,6 @@ describe("NFTMarketplace", function () {
   // --- Fetch Functions ---
   describe("Fetch Functions", function () {
     beforeEach(async function () {
-      // Tạo nhiều tokens với các trạng thái khác nhau
       await nftMarketplace.connect(addr1).createToken(
         "https://example.com/token/1",
         TOKEN_PRICE,
