@@ -26,7 +26,7 @@ describe("NFTMarketplace", function () {
       await expect(nftMarketplace.connect(addr1).updateListingPrice(LISTING_PRICE))
         .to.be.revertedWith("Only marketplace owner can change the listing price.");
     });
-
+    
     it("Should set correct listing price", async function () {
       expect(await nftMarketplace.getListingPrice()).to.equal(LISTING_PRICE);
     });

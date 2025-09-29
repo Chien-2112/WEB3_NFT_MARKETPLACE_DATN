@@ -85,7 +85,6 @@ const SideBar = ({ setOpenSideMenu }) => {
 			setOpenDiscover(false);
 		}
 	};
-
 	const openHelpMenu = () => {
 		if(!openHelp) {
 			setOpenHelp(true);
@@ -182,8 +181,8 @@ const SideBar = ({ setOpenSideMenu }) => {
 			</div>
 
 			<div className={Style.sideBar_button}>
-				<Button btnName="Create" />
-				<Button btnName="Connect Wallet"></Button>
+				<Button btnName="Create" handleClick={() => {}}/>
+				<Button btnName="Connect Wallet" handleClick={() => {}}></Button>
 			</div>
 		</div>
 	)

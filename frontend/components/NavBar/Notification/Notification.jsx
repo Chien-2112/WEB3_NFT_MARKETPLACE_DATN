@@ -25,7 +25,7 @@ const Notification = () => {
 			</div>
 			<span className={Style.notification_box_new}></span>
 		</div>
-	</div>;
+	</div>
 }
 
 export default Notification;
