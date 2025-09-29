@@ -1,6 +1,7 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+// Unit test
 describe("NFTMarketplace", function () {
   let nftMarketplace;
   let owner, addr1, addr2, addr3;
