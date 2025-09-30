@@ -15,7 +15,7 @@ const HeroSection = () => {
 			<div className={Style.heroSection_box_left}>
 				<h1>Discover, collect, and sell NFTs</h1>
 				<p>
-					Discover the most outstanding NFTs in all topics of life.Create 
+					Discover the most outstanding NFTs in all topics of life. Create 
 					your NFTs and sell them.
 				</p>
 				<Button btnName='Start your search'/>
