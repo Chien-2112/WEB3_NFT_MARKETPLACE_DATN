@@ -1,7 +1,7 @@
 import "./globals.css";
 
 // INTERNAL IMPORT.
-import { NavBar } from "../../components/componentsindex"
+import { NavBar, Footer } from "../../components/componentsindex"
 
 export default function RootLayout({ children }) {
   return (
@@ -9,6 +9,7 @@ export default function RootLayout({ children }) {
       <body>
         <NavBar />
         {children}
+        <Footer />
       </body>
     </html>
   );
