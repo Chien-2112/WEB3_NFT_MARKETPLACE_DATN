@@ -15,6 +15,10 @@
     gap: 3rem;
 }
 
+.footer_box_social {
+    align-self: center;
+}
+
 .footer_box_social img {
     height: 40px; 
     width: auto;

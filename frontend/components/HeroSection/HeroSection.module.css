@@ -1,0 +1,23 @@
+
+.heroSection {
+	width: 80%;
+	margin: 3rem auto;
+}
+
+.heroSection_box {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 2rem;
+}
+
+@media screen and (max-width: 35em) {
+	.heroSection {
+		width: 90%;
+	}
+}
+
+@media screen and (max-width: 55em) {
+	.heroSection_box {
+		grid-template-columns: 1fr;
+	}
+}
