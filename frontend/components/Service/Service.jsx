@@ -10,7 +10,7 @@ const Service = () => {
 	<div className={Style.service}>
 		<div className={Style.service_box}>
 			<div className={Style.service_box_item}>
-				<Image 
+				<Image
 					src={images.service1} 
 					alt="Filter & Discover" 
 					width={100} 
