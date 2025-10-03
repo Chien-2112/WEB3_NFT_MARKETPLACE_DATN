@@ -5,7 +5,8 @@ import Style from "./index.module.css";
 import { 
   HeroSection, 
   Service,
-  BigNFTSlider 
+  BigNFTSlider ,
+  Subscribe
 } from "../../components/componentsindex";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <HeroSection />
       <Service />
       <BigNFTSlider />
+      <Subscribe />
     </div>
   );
 }
