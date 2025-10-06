@@ -6,7 +6,9 @@ import {
   HeroSection, 
   Service,
   BigNFTSlider ,
-  Subscribe
+  Subscribe,
+  Title,
+  Category,
 } from "../../components/componentsindex";
 
 export default function Home() {
@@ -15,7 +17,12 @@ export default function Home() {
       <HeroSection />
       <Service />
       <BigNFTSlider />
+      <Title 
+        heading="Browse by category" 
+        paragraph="Explore the NFTs in the most features categories."
+      />
+      <Category />
       <Subscribe />
     </div>
   );
-}
+};
