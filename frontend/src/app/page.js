@@ -9,7 +9,8 @@ import {
   Subscribe,
   Title,
   Category,
-  Filter
+  Filter,
+  NFTCard
 } from "../../components/componentsindex";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
       <Filter />
+      <NFTCard />
       <Title 
         heading="Browse by category" 
         paragraph="Explore the NFTs in the most features categories."
