@@ -12,7 +12,8 @@ import {
   Filter,
   NFTCard,
   Collection,
-  FollowerTab
+  FollowerTab,
+  AudioLive
 } from "../../components/componentsindex";
 
 export default function Home() {
@@ -21,6 +22,11 @@ export default function Home() {
       <HeroSection />
       <Service />
       <BigNFTSlider />
+      <Title 
+        heading="Latest Audio Collection" 
+        paragraph="Discover the most outstanding NFTs in all topics of life."
+      />
+      <AudioLive />
       <Title 
         heading="New Collection" 
         paragraph="Discover the most outstanding NFTs in all topics of life."
