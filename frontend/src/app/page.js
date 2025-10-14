@@ -11,7 +11,8 @@ import {
   Category,
   Filter,
   NFTCard,
-  Collection
+  Collection,
+  FollowerTab
 } from "../../components/componentsindex";
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
         heading="New Collection" 
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
+      <FollowerTab />
       <Collection />
       <Title 
         heading="Featured NFTs" 
