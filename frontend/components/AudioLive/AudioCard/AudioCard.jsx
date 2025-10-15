@@ -14,6 +14,7 @@ import {
 // INTERNAL IMPORT.
 import Style from "./AudioCard.module.css";
 import images from "../../../public/img";
+import LikeProfile from '../../LikeProfile/LikeProfile';
 
 const AudioCard = () => {
 	const [like, setLike] = useState(false);
@@ -89,6 +90,7 @@ const AudioCard = () => {
 					</div>
 
 					<div className={Style.audioCard_box_details_stock}>
+						<LikeProfile />
 						<small>24 in stock</small>
 					</div>
 				</div>
@@ -97,8 +99,8 @@ const AudioCard = () => {
 					<Image 
 						src={images.creatorbackground10}
 						alt="background"
-						width={400}
-						height={400}
+						width={500}
+						height={500}
 					/>
 				</div>
 			</div>
