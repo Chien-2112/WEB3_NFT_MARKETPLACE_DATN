@@ -71,7 +71,7 @@ const AudioCard = () => {
 						{play ? (
 							<div className={Style.audioCard_box_musicPlayer_icon}>
 								<TbPlayerPause />
-							</div>	
+							</div>
 						) : (
 							<div className={Style.audioCard_box_musicPlayer_icon}>
 								<TbPlayerPlay />

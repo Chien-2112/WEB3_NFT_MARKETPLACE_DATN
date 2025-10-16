@@ -16,7 +16,7 @@ const Collection = () => {
 	const [following, setFollowing] = useState(false);
 	const [news, setNews] = useState(false);
 
-	const CardArray = [1, 2, 3, 4, 5, 6, 7, 8];
+	const CardArray = [1, 2, 3, 4, 5, 6];
 	const followingArray = [1, 2, 3, 4];
 	const newsArray = [1, 2, 3, 4, 5, 6];
 
