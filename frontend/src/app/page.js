@@ -15,7 +15,8 @@ import {
   FollowerTab,
   AudioLive,
   Slider,
-  Brand
+  Brand,
+  Video
 } from "../../components/componentsindex";
 
 export default function Home() {
@@ -45,6 +46,7 @@ export default function Home() {
       <Category />
       <Subscribe />
       <Brand />
+      <Video />
     </div>
   );
 };
