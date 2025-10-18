@@ -43,26 +43,34 @@
 
 .FollowerTabCard_box_profile {
 	grid-column: 1 / -1;
-	text-align: center;
-	margin-top: -2rem;
+	display: flex;
+	justify-content: center;
+	margin-top: -3.2rem;
 	position: relative;
+	z-index: 3;
 }
-
+  
 .FollowerTabCard_box_profile_img {
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
 	border-radius: 50%;
-	padding: 1rem;
-	z-index: 222;
+	border: 4px solid var(--main-bg-color);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	position: relative;
+	z-index: 2;
 }
-
+  
 .FollowerTabCard_box_profile::before {
-	position: absolute;
 	content: "";
-	width: 5rem;
-	height: 5rem;
-	background-color: var(--main-bg-color);
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	background: rgba(255, 255, 255, 0.9);
 	border-radius: 50%;
-	top: -20%;
-	left: 38%;
+	top: -5px;
+	filter: blur(10px);
+	z-index: 1;
 }
 
 .FollowerTabCard_box_info {
