@@ -19,7 +19,6 @@ import Style from "./AuthorProfileCard.module.css";
 import images from "../../public/img";
 import { Button } from '../../components/componentsindex';
 import { SiTrueup } from 'react-icons/si';
-
 const AuthorProfileCard = () => {
 	const [share, setShare] = useState(false);
 	const [report, setReport] = useState(false);
@@ -74,8 +73,9 @@ const AuthorProfileCard = () => {
 					<div className={Style.AuthorProfileCard_box_info_address}>
 						<input 
 							type="text" 
-							value="0x29b9b412Cbdb7a18bF8E8dc1b6..4bCB5" 
+							value="0x29b9b412Cbdb7a18bF8E8dc1b63Ad5f29E94bCB5" 
 							id="myInput"
+							readOnly
 						/>
 						<FiCopy 
 							onClick={() => copyAddress()} 
