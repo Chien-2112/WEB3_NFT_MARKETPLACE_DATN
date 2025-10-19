@@ -11,8 +11,7 @@ import images from "../../../public/img";
 
 const FollowerTabCard = ({ i, el }) => {
 	const [following, setFollowing] = useState(false);
-	console.log("User image:", el.user);
-
+	
 	const followMe = () => {
 		if(!following) {
 			setFollowing(true);
