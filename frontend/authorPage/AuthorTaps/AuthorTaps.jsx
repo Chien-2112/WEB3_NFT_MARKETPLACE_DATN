@@ -37,6 +37,7 @@ const AuthorTaps = ({
 
 	const openTab = (e) => {
 		const btnText = e.target.innerText;
+		console.log(btnText);
 		if(btnText == "Collectiables") {
 			setCollectiables(true);
 			setCreated(false);
