@@ -260,7 +260,7 @@ const NFTDescription = () => {
 						)}
 						{owner && (
 							<div className={Style.NFTDescription_box_profile_bidding_box_card}>
-								<NFTTabs dataTab={ownerArray} icon={MdVerified }/>
+								<NFTTabs dataTab={ownerArray} icon={<MdVerified/> }/>
 							</div>
 						)}
 					</div>
