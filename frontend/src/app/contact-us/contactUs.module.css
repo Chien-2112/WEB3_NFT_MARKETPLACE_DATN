@@ -1,0 +1,132 @@
+.contactus {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f9fafb;
+	padding: 4rem 1rem;
+}
+
+.contactus_box {
+	width: 70%;
+	max-width: 1200px;
+	background: #fff;
+	padding: 4rem 3rem;
+	border-radius: 1.5rem;
+	box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.contactus_box h1 {
+	text-align: center;
+	font-size: 3rem;
+	font-weight: 800;
+	margin-bottom: 3rem;
+	background: linear-gradient(90deg, #3b82f6, #06b6d4);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.contactus_box_box {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 3rem;
+	align-items: flex-start;
+}
+
+.contactus_box_box_left {
+	display: flex;
+	flex-direction: column;
+	gap: 1.4rem; /* 🔥 Giảm từ 2.5rem xuống 1.4rem cho các mục gần nhau hơn */
+}
+
+.contactus_box_box_left_item h3 {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	font-size: 1.3rem;
+	font-weight: 700;
+	color: #111827;
+	text-transform: uppercase;
+	margin-bottom: 0.2rem; /* 🔥 Giảm khoảng cách giữa tiêu đề và đoạn mô tả */
+}
+
+.contactus_box_box_left_item h3 svg {
+	color: #3b82f6;
+	font-size: 1.5rem;
+}
+
+.contactus_box_box_left_item p {
+	line-height: 1.5;
+	width: 90%;
+	font-size: 1rem;
+	color: #374151;
+	margin-left: 2.2rem;
+}
+
+.contactus_box_box_left_item a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	color: #4b5563;
+	margin-right: 0.8rem;
+	border-radius: 50%;
+	transition: all 0.3s ease;
+}
+
+.contactus_box_box_left_item a:hover {
+	transform: translateY(-3px);
+}
+
+.contactus_box_box_left_item a:nth-child(2):hover { color: #1877f2; }
+.contactus_box_box_left_item a:nth-child(3):hover { color: #0a66c2; }
+.contactus_box_box_left_item a:nth-child(4):hover { color: #1da1f2; }
+.contactus_box_box_left_item a:nth-child(5):hover { color: #e1306c; }
+
+.contactus_box_box_right form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.3rem;
+}
+
+.contactus_box_box_right label {
+	font-weight: 600;
+	margin-bottom: 0.3rem;
+	display: block;
+	color: #111827;
+}
+
+.contactus_box_box_right input,
+.contactus_box_box_right textarea {
+	width: 100%;
+	padding: 0.9rem 1.2rem;
+	border: 1px solid #cbd5e1;
+	border-radius: 0.8rem;
+	font-size: 1rem;
+	color: #111827;
+	outline: none;
+	transition: all 0.2s ease;
+}
+
+.contactus_box_box_right input:focus,
+.contactus_box_box_right textarea:focus {
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.button {
+	margin-top: 1.2rem;
+	display: inline-block;
+}
+
+@media screen and (max-width: 900px) {
+	.contactus_box {
+		width: 90%;
+		padding: 2.5rem;
+	}
+	.contactus_box_box {
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+	}
+}
