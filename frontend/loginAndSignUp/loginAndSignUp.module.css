@@ -1,0 +1,199 @@
+/* Login And Sign Up Component Styles */
+.user {
+	width: 100%;
+  }
+  
+  .user_box {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+  }
+  
+  /* Social Login Buttons */
+  .user_box_social {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+  }
+  
+  .user_box_social_item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px 18px;
+	border: 2px solid #e0e0e0;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	background: #f9f9f9;
+  }
+  
+  .user_box_social_item:hover {
+	border-color: #667eea;
+	background: #f0f4ff;
+  }
+  
+  .user_box_social_item.active {
+	border-color: #667eea;
+	background: #f0f4ff;
+	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  }
+  
+  .user_box_social_item_img {
+	width: 24px;
+	height: 24px;
+	object-fit: contain;
+  }
+  
+  .user_box_social_item p {
+	margin: 0;
+	font-size: 14px;
+	color: #333;
+	font-weight: 500;
+  }
+  
+  .user_box_social_item p span {
+	color: #666;
+	font-size: 14px;
+  }
+  
+  /* OR Divider */
+  .user_box_or {
+	text-align: center;
+	font-size: 13px;
+	color: #999;
+	font-weight: 600;
+	margin: 5px 0;
+	position: relative;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+  }
+  
+  .user_box_or::before,
+  .user_box_or::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	width: 40%;
+	height: 1px;
+	background: #ddd;
+  }
+  
+  .user_box_or::before {
+	left: 0;
+  }
+  
+  .user_box_or::after {
+	right: 0;
+  }
+  
+  /* Email and Password Inputs */
+  .user_box_input {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+  }
+  
+  .user_box_input_box {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+  }
+  
+  .user_box_input_box label {
+	font-size: 13px;
+	font-weight: 600;
+	color: #333;
+	text-transform: capitalize;
+  }
+  
+  .user_box_input_box input {
+	padding: 12px 14px;
+	border: 2px solid #e0e0e0;
+	border-radius: 6px;
+	font-size: 14px;
+	font-family: inherit;
+	transition: all 0.3s ease;
+	background: #fafafa;
+  }
+  
+  .user_box_input_box input:focus {
+	outline: none;
+	border-color: #667eea;
+	background: white;
+	box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+  
+  .user_box_input_box input::placeholder {
+	color: #999;
+  }
+  
+  /* Password Label with Forgot Password */
+  .user_box_input_box_label {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  }
+  
+  .user_box_input_box_label p {
+	margin: 0;
+	padding: 0;
+  }
+  
+  .user_box_input_box_label a {
+	font-size: 12px;
+	color: #667eea;
+	text-decoration: none;
+	font-weight: 600;
+	transition: color 0.3s ease;
+  }
+  
+  .user_box_input_box_label a:hover {
+	color: #764ba2;
+	text-decoration: underline;
+  }
+  
+  /* Continue Button */
+  .button {
+	width: 100%;
+	padding: 14px;
+	margin-top: 8px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 15px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+  }
+  
+  .button:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+  .button:active {
+	transform: translateY(0);
+  }
+  
+  @media (max-width: 600px) {
+	.user_box {
+	  gap: 20px;
+	}
+  
+	.user_box_social_item {
+	  padding: 12px 14px;
+	}
+  
+	.user_box_input_box input {
+	  font-size: 16px;
+	}
+  
+	.button {
+	  padding: 12px;
+	  font-size: 14px;
+	}
+  }  
