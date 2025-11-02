@@ -134,6 +134,7 @@
     .aboutus_box{
         width: 90%;
     }
+    
     .aboutus_box_hero{
         grid-template-columns: 1fr;
     }
