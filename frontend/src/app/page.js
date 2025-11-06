@@ -18,15 +18,19 @@ import {
   Brand,
   Video
 } from "../../components/componentsindex";
+import { useContext } from "react";
+import { NFTMarketplaceContext } from "../../Context/NFTMarketplaceContext";
 
 export default function Home() {
+  const {} = useContext(NFTMarketplaceContext);
+
   return (
     <div className={Style.homePage}>
       <HeroSection />
       <Service />
       <BigNFTSlider />
-      <Title 
-        heading="Audio Collection" 
+      <Title
+        heading="Audio Collection"
         paragraph="Discover the most outstanding NFTs in all topics of life."
       />
       <AudioLive />
