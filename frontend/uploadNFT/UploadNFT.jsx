@@ -9,6 +9,7 @@ import {
 import { FaPercent } from "react-icons/fa";
 import { AiTwotonePropertySafety } from 'react-icons/ai';
 import { TiTick } from "react-icons/ti";
+import { useRouter } from "next/navigation";
 
 // INTERNAL IMPORT.
 import Style from "./Upload.module.css";
@@ -17,15 +18,19 @@ import images from "../public/img";
 import { Button } from '../components/componentsindex.js';
 import { DropZone } from '../uploadNFT/uploadNFTIndex.js';
 
-const UploadNFT = () => {
+const UploadNFT = ({ uploadToIPFS, createNFT }) => {
+	const [price, setPrice] = useState("");
 	const [active, setActive] = useState(0);
-	const [itemName, setItemName] = useState("");
+	const [name, setName] = useState("");
 	const [website, setWebsite] = useState("");
 	const [description, setDescription] = useState("");
 	const [royalties, setRoyalties] = useState("");
 	const [fileSize, setFileSize] = useState("");
 	const [category, setCategory] = useState(0);
 	const [properties, setProperties] = useState("");
+	const [image, setImage] = useState(null);
+
+	const router = useRouter();
 
 	const categoryArray = [
 		{
@@ -56,14 +61,15 @@ const UploadNFT = () => {
 				title="JPG, PNG, WEBM, MAX 100MB"
 				heading="Drag & drop file"
 				subHeading="or Browse media on your device"
-				itemName={itemName}
+				name={name}
 				website={website}
 				description={description}
 				royalties={royalties}
 				fileSize={fileSize}
 				category={category}
 				properties={properties}
-				image={images.upload}
+				setImage={setImage}
+				uploadToIPFS={uploadToIPFS}
 			/>
 
 			<div className={Style.upload_box}>
@@ -73,7 +79,7 @@ const UploadNFT = () => {
 						type="text" 
 						placeholder="shoaib bhai"
 						className={formStyle.Form_box_input_userName}
-						onChange={(e) => setItemName(e.target.value)} 
+						onChange={(e) => setName(e.target.value)} 
 					/>
 				</div>
 
@@ -191,12 +197,28 @@ const UploadNFT = () => {
 						/>
 						</div>
 					</div>
+
+					<div className={formStyle.Form_box_input}>
+						<label htmlFor="Price">Price</label>
+						<div className={formStyle.Form_box_input_box}>
+							<div className={formStyle.Form_box_input_box_icon}>
+								<AiTwotonePropertySafety />
+							</div>
+						<input 
+							type="text" 
+							placeholder="Properties"
+							onChange={(e) => setPrice(e.target.value)}  
+						/>
+						</div>
+					</div>
 				</div>
 
 				<div className={Style.upload_box_btn}>
 					<Button 
 						btnName="Upload" 
-						handleClick={() => {}} 
+						handleClick={
+							async() => createNFT(name, price, image, description, router, website, royalties, fileSize, category, properties)
+						} 
 						classStyle={Style.upload_box_btn_style}
 					/>
 					<Button 

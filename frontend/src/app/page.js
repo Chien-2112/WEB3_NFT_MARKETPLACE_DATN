@@ -1,3 +1,4 @@
+'use client';
 import Image from "next/image";
 
 // INTERNAL IMPORT.
@@ -18,11 +19,14 @@ import {
   Brand,
   Video
 } from "../../components/componentsindex";
-import { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { NFTMarketplaceContext } from "../../Context/NFTMarketplaceContext";
 
 export default function Home() {
-  const {} = useContext(NFTMarketplaceContext);
+  const { checkIfWalletConnected } = useContext(NFTMarketplaceContext);
+  useEffect(() => {
+    checkIfWalletConnected();
+  }, []);
 
   return (
     <div className={Style.homePage}>

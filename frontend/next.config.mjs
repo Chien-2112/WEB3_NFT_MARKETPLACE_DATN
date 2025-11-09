@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config, { isServer }) => {
-    // Ignore electron module for browser builds
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -11,7 +10,16 @@ const nextConfig = {
         tls: false,
       };
     }
+
+    config.externals.push({
+      electron: 'commonjs electron',
+    });
+
     return config;
+  },
+
+  images: {
+    domains: ['ipfs.infura.io', 'nftstorage.link', 'gateway.pinata.cloud'],
   },
 };
 

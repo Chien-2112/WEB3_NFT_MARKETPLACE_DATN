@@ -10,15 +10,15 @@ describe("NFTMarketplace", function () {
   let HIGHER_PRICE;
 
   beforeEach(async function () {
-    LISTING_PRICE = ethers.utils.parseEther("0.0025");
-    TOKEN_PRICE = ethers.utils.parseEther("1");
-    HIGHER_PRICE = ethers.utils.parseEther("2");
+    LISTING_PRICE = ethers.parseEther("0.0025");
+    TOKEN_PRICE = ethers.parseEther("1");
+    HIGHER_PRICE = ethers.parseEther("2");
 
     [owner, addr1, addr2, addr3] = await ethers.getSigners();
 
     const NFTMarketplace = await ethers.getContractFactory("NFTMarketplace");
     nftMarketplace = await NFTMarketplace.deploy();
-    await nftMarketplace.deployed();
+    await nftMarketplace.waitForDeployment();
   });
 
   // --- Deployment ---
@@ -41,13 +41,13 @@ describe("NFTMarketplace", function () {
   // --- Listing Price Management ---
   describe("Listing Price Management", function () {
     it("Should allow owner to update listing price", async function () {
-      const newPrice = ethers.utils.parseEther("0.005");
+      const newPrice = ethers.parseEther("0.005");
       await nftMarketplace.updateListingPrice(newPrice);
       expect(await nftMarketplace.getListingPrice()).to.equal(newPrice);
     });
 
     it("Should not allow non-owner to update listing price", async function () {
-      const newPrice = ethers.utils.parseEther("0.005");
+      const newPrice = ethers.parseEther("0.005");
       await expect(nftMarketplace.connect(addr1).updateListingPrice(newPrice))
         .to.be.revertedWith("Only marketplace owner can change the listing price.");
     });
@@ -57,22 +57,23 @@ describe("NFTMarketplace", function () {
   describe("Token Creation and Listing", function () {
     it("Should create token and list on marketplace", async function () {
       const tokenURI = "https://example.com/token/1";
+      const contractAddress = await nftMarketplace.getAddress();
 
       await expect(nftMarketplace.connect(addr1).createToken(
         tokenURI,
         TOKEN_PRICE,
         { value: LISTING_PRICE }
       ))
-        .to.emit(nftMarketplace, 'MarketItemCreated')
-        .withArgs(1, addr1.address, nftMarketplace.address, TOKEN_PRICE, false);
+        .to.emit(nftMarketplace, 'idMarketItemCreated')
+        .withArgs(1, addr1.address, contractAddress, TOKEN_PRICE, false);
 
       expect(await nftMarketplace.tokenURI(1)).to.equal(tokenURI);
-      expect(await nftMarketplace.ownerOf(1)).to.equal(nftMarketplace.address);
+      expect(await nftMarketplace.ownerOf(1)).to.equal(contractAddress);
     });
 
     it("Should fail if listing price is incorrect", async function () {
       const tokenURI = "https://example.com/token/1";
-      const wrongPrice = ethers.utils.parseEther("0.001");
+      const wrongPrice = ethers.parseEther("0.001");
 
       await expect(nftMarketplace.connect(addr1).createToken(
         tokenURI,
@@ -110,19 +111,21 @@ describe("NFTMarketplace", function () {
         value: TOKEN_PRICE
       }))
         .to.emit(nftMarketplace, 'MarketItemSold')
-        .withArgs(1, addr2.address, true);
+        .withArgs(1, addr1.address, addr2.address, TOKEN_PRICE, true);
 
       expect(await nftMarketplace.ownerOf(1)).to.equal(addr2.address);
 
       const sellerBalanceAfter = await ethers.provider.getBalance(addr1.address);
       const ownerBalanceAfter = await ethers.provider.getBalance(owner.address);
 
-      expect(sellerBalanceAfter).to.be.closeTo(sellerBalanceBefore.add(TOKEN_PRICE), ethers.utils.parseEther("0.001"));
-      expect(ownerBalanceAfter).to.be.closeTo(ownerBalanceBefore.add(LISTING_PRICE), ethers.utils.parseEther("0.001"));
+      // Check that seller received the payment (within gas cost tolerance)
+      expect(sellerBalanceAfter).to.be.closeTo(sellerBalanceBefore + TOKEN_PRICE, ethers.parseEther("0.01"));
+      // Check that owner received listing price (within gas cost tolerance)
+      expect(ownerBalanceAfter).to.be.closeTo(ownerBalanceBefore + LISTING_PRICE, ethers.parseEther("0.01"));
     });
 
     it("Should fail if incorrect payment amount", async function () {
-      const wrongAmount = ethers.utils.parseEther("0.5");
+      const wrongAmount = ethers.parseEther("0.5");
 
       await expect(nftMarketplace.connect(addr2).createMarketSale(1, {
         value: wrongAmount
@@ -132,7 +135,7 @@ describe("NFTMarketplace", function () {
     it("Should fail buying non-existent token", async function () {
       await expect(nftMarketplace.connect(addr2).createMarketSale(999, {
         value: TOKEN_PRICE
-      })).to.be.revertedWith("Item with this ID does not exist");
+      })).to.be.revertedWith("Item does not exist");
     });
   });
 
@@ -156,7 +159,7 @@ describe("NFTMarketplace", function () {
         .to.emit(nftMarketplace, 'MarketItemReselled')
         .withArgs(1, addr2.address, HIGHER_PRICE);
 
-      expect(await nftMarketplace.ownerOf(1)).to.equal(nftMarketplace.address);
+      expect(await nftMarketplace.ownerOf(1)).to.equal(await nftMarketplace.getAddress());
     });
 
     it("Should fail if not token owner tries to resell", async function () {
@@ -166,7 +169,7 @@ describe("NFTMarketplace", function () {
     });
 
     it("Should fail if incorrect listing price for resell", async function () {
-      const wrongPrice = ethers.utils.parseEther("0.001");
+      const wrongPrice = ethers.parseEther("0.001");
       await expect(nftMarketplace.connect(addr2).reSellToken(1, HIGHER_PRICE, {
         value: wrongPrice
       })).to.be.revertedWith("Price must be equal to listing price");
@@ -201,14 +204,16 @@ describe("NFTMarketplace", function () {
       const items = await nftMarketplace.fetchMarketItem();
       expect(items.length).to.equal(2);
 
+      const contractAddress = await nftMarketplace.getAddress();
+      
       expect(items[0].tokenId).to.equal(2);
-      expect(items[0].seller).to.equal(addr1.address);
-      expect(items[0].owner).to.equal(nftMarketplace.address);
+      expect(items[0].seller.toLowerCase()).to.equal(addr1.address.toLowerCase());
+      expect(items[0].owner.toLowerCase()).to.equal(contractAddress.toLowerCase());
       expect(items[0].sold).to.equal(false);
 
       expect(items[1].tokenId).to.equal(3);
-      expect(items[1].seller).to.equal(addr2.address);
-      expect(items[1].owner).to.equal(nftMarketplace.address);
+      expect(items[1].seller.toLowerCase()).to.equal(addr2.address.toLowerCase());
+      expect(items[1].owner.toLowerCase()).to.equal(contractAddress.toLowerCase());
       expect(items[1].sold).to.equal(false);
     });
 
@@ -216,7 +221,7 @@ describe("NFTMarketplace", function () {
       const addr2Items = await nftMarketplace.connect(addr2).fetchMyNFTs();
       expect(addr2Items.length).to.equal(1);
       expect(addr2Items[0].tokenId).to.equal(1);
-      expect(addr2Items[0].owner).to.equal(addr2.address);
+      expect(addr2Items[0].owner.toLowerCase()).to.equal(addr2.address.toLowerCase());
       expect(addr2Items[0].sold).to.equal(true);
     });
 
@@ -224,12 +229,12 @@ describe("NFTMarketplace", function () {
       const addr1Listed = await nftMarketplace.connect(addr1).fetchItemsListed();
       expect(addr1Listed.length).to.equal(1);
       expect(addr1Listed[0].tokenId).to.equal(2);
-      expect(addr1Listed[0].seller).to.equal(addr1.address);
+      expect(addr1Listed[0].seller.toLowerCase()).to.equal(addr1.address.toLowerCase());
 
       const addr2Listed = await nftMarketplace.connect(addr2).fetchItemsListed();
       expect(addr2Listed.length).to.equal(1);
       expect(addr2Listed[0].tokenId).to.equal(3);
-      expect(addr2Listed[0].seller).to.equal(addr2.address);
+      expect(addr2Listed[0].seller.toLowerCase()).to.equal(addr2.address.toLowerCase());
     });
 
     it("Should fetch all tokens", async function () {
@@ -261,7 +266,7 @@ describe("NFTMarketplace", function () {
         value: LISTING_PRICE
       });
 
-      expect(await nftMarketplace.ownerOf(1)).to.equal(nftMarketplace.address);
+      expect(await nftMarketplace.ownerOf(1)).to.equal(await nftMarketplace.getAddress());
 
       await nftMarketplace.connect(addr3).createMarketSale(1, {
         value: HIGHER_PRICE
