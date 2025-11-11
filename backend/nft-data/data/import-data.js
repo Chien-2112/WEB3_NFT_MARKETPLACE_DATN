@@ -1,24 +1,14 @@
-const fs = require("fs");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const NFT = require("./../../models/nftModel");
+import dotenv from "dotenv";
+dotenv.config();
 
-dotenv.config({ path: "./config.env" });
-const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
-);
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from 'url';
+import { NFT } from "../../models/nftsModel.js";
+import instanceDB from "../../database/connectDB.js";
 
-mongoose
-  .connect(DB, {
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useNewUrlParser: true,
-  })
-  .then((con) => {
-    // console.log(con.connection);
-    console.log("DB Connection Successfully");
-  });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const nfts = JSON.parse(
   fs.readFileSync(`${__dirname}/nft-simple.json`, "utf-8")
