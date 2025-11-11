@@ -2,6 +2,7 @@ import fs from "fs";
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { NFT } from "../models/nftsModel.js";
+import mongoose from "mongoose";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -74,7 +75,20 @@ const createNFT = async(request, response) => {
 // GET SINGLE NFT.
 const getSingleNFT = async(request, response) => {
 	try {
-		const nft = await NFT.findById({ _id: request.param.id });
+		const { id } = request.params;
+		if (!mongoose.Types.ObjectId.isValid(id)) {
+			return response.status(400).json({ 
+				status: "fail", 
+				message: "Invalid ID" 
+			});
+		  }
+		const nft = await NFT.findById(id);
+		if (!nft) {
+			return response.status(404).json({ 
+				status: "fail", 
+				message: "NFT not found" 
+			});
+		}
 		response.status(200).json({
 			status: "success",
 			data: {
@@ -82,10 +96,10 @@ const getSingleNFT = async(request, response) => {
 			}
 		})
 	} catch(error) {
-		response.status(404).json({
-			status: "fail",
-			message: error,
-		})
+		response.status(500).json({ 
+			status: "error", 
+			message: error.message 
+		});
 	}
 };
 
