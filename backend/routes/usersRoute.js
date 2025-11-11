@@ -1,37 +1,13 @@
 import express from "express";
+import {
+	getAllUsers,
+	getSingleUser,
+	createUser,
+	updateUser,
+	deleteUser,
+} from "../controllers/userControllers.js";
 
 const router = express.Router();
-
-const getAllUsers = (request, response) => {
-	response.status(500).json({
-		status: "error",
-		message: "Internal server error",
-	});
-}
-const getSingleUser = (request, response) => {
-	response.status(500).json({
-		status: "error",
-		message: "Internal server error",
-	});
-}
-const createUser = (request, response) => {
-	response.status(500).json({
-		status: "error",
-		message: "Internal server error",
-	});
-}
-const updateUser = (request, response) => {
-	response.status(500).json({
-		status: "error",
-		message: "Internal server error",
-	});
-}
-const deleteUser = (request, response) => {
-	response.status(500).json({
-		status: "error",
-		message: "Internal server error",
-	});
-}
 
 router.get("/", getAllUsers);
 router.post("/", createUser);
