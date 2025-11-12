@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { NFT } from "../models/nftsModel.js";
 import mongoose from "mongoose";
+import { APIFeatures } from "../utils/apiFeatures.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,36 +12,25 @@ const nfts = JSON.parse(
 	fs.readFileSync(`${__dirname}/../nft-data/data/nft-simple.json`)
 );
 
-// MIDDLEWARE.
-// const checkId = (request, response, next, value) => {
-// 	console.log(`ID: ${value}`);
-// 	if(request.params.id * 1 > nfts.length) {
-// 		return response.status(404).json({
-// 			status: "fail",
-// 			message: "Invalid ID",
-// 		});
-// 	};
-// 	next();
-// }
-
-// const checkBody = (request, response, next) => {
-// 	if(!request.body.name || !request.body.price) {
-// 		return response.status(400).json({
-// 			status: "fail",
-// 			message: "Missing name and price",
-// 		});
-// 	}
-// 	next();
-// };
-
-
+const aliasTopNFTs = (request, response, next) => {
+	request.query.limit = '5';
+	request.query.sort = "-ratingsAverage,price";
+	request.query.fields = "name,price,ratingsAverage,difficulty";
+	console.log('Top NFT Query:', request.query);
+	next();
+}
 // GET ALL NFTs.
-const getAllNfts = async(request, response) => {
+const getAllNfts = async (request, response) => {
 	try {
-		const nfts = await NFT.find();
+		const features = new APIFeatures(NFT.find(), request.query)
+			.filter()
+			.sort()
+			.limitFields()
+			.pagination();
+		const nfts = await features.query;
+
 		response.status(200).json({
 			status: "success",
-			requestTime: request.requestTime,
 			results: nfts.length,
 			data: {
 				nfts,
@@ -49,8 +39,8 @@ const getAllNfts = async(request, response) => {
 	} catch(error) {
 		response.status(404).json({
 			status: "fail",
-			message: error,
-		})
+			message: error.message,
+		});
 	}
 };
 
@@ -107,12 +97,9 @@ const getSingleNFT = async(request, response) => {
 const updateNFT = async(request, response) => {
 	try {
 		const nft = await NFT.findByIdAndUpdate(
-			request.param.id,
+			request.params.id,
 			request.body,
-			{
-				new: true,
-				runValidators: true,
-			}
+			{ new: true, runValidators: true }
 		);
 		response.status(200).json({
 			status: "success",
@@ -131,7 +118,7 @@ const updateNFT = async(request, response) => {
 // DELETE NFT.
 const deleteNFT = async(request, response) => {
 	try {
-		await NFT.findByIdAndDelete();
+		await NFT.findByIdAndDelete(request.params.id);
 		response.status(204).json({
 			status: "success",
 			data: null,
@@ -150,4 +137,5 @@ export {
 	createNFT, 
 	updateNFT, 
 	deleteNFT,
+	aliasTopNFTs
 };

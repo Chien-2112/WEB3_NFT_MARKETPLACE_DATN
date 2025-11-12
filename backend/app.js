@@ -47,7 +47,6 @@ app.use(express.static(`${__dirname}/nft-data/img`));
 app.use("/api/v1/nfts", nftRoutes);
 app.use("/api/v1/users", userRoutes);
 
-
 // HANDLING ERROR.
 app.use((request, response, next) => {
 	const err = new Error("Not Found");
