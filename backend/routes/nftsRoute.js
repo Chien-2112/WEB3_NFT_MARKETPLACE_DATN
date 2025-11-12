@@ -6,6 +6,8 @@ import {
 	updateNFT, 
 	deleteNFT,
 	aliasTopNFTs,
+	getNFTsStats,
+	getMonthlyPlan
 	// checkId,
 	// checkBody
 } from "../controllers/nftControllers.js";
@@ -15,6 +17,12 @@ const router = express.Router();
 
 // TOP 5 NFTs BY PRICE.
 router.get("/top-5-nfts", aliasTopNFTs, getAllNfts);
+
+// STATS ROUTE.
+router.route("/nfts-stats").get(getNFTsStats);
+
+// GET MONTHLY PLAN
+router.route("/monthly-plan/:year").get(getMonthlyPlan);
 
 // ROUTES.
 router.get("/", getAllNfts);

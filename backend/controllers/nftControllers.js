@@ -131,11 +131,109 @@ const deleteNFT = async(request, response) => {
 	}
 };
 
+// AGGREGATION PIPELINE.
+const getNFTsStats = async(request, response) => {
+	try {
+		const stats = await NFT.aggregate([
+			{
+				$match: {ratingsAverage: { $gte: 4.5 }},
+			},
+			{
+				$group: {
+					// _id: "$ratingsAverage",
+					_id: { $toUpper: "$difficulty" },
+					num: {$sum: 1},
+					numRatings: {$sum: "$ratingsQuantity"},
+					avgRating: {$avg: "$ratingsAverage"},
+					avgPrice: {$avg: "$price"},
+					minPrice: {$min: "$price"},
+					maxPrice: {$max: "$price"},
+				},
+			},
+			{
+				$sort: {avgRating: 1}
+			},
+			{
+				$match: {
+					_id: { $ne: "EASY" }
+				}
+			}
+		]);
+		response.status(200).json({
+			status: "success",
+			data: {
+				stats
+			},
+		});
+	} catch(error) {
+		response.status(404).json({
+			status: "fail",
+			message: error,
+		})
+	}
+}
+
+// CALCULATING NUMBER OF NFT CREATE IN THE MONTH OR MONTHLY PLAN
+const getMonthlyPlan = async(request, response) => {
+	try {
+		const year = request.params.year * 1;
+		const plan = await NFT.aggregate([
+			{
+				$unwind: "$startDates",
+			},
+			{
+				$match: {
+					startDates: {
+						$gte: new Date(`${year}-01-01`),
+						$lte: new Date(`${year}-12-31`),
+					}
+				}
+			},
+			{
+				$group: {
+					_id: {$month: "$startDates"},
+					numNFTStarts: {$sum: 1},
+					nfts: {$push: "$name"},
+				},
+			},
+			{
+				$addFields: {
+					month: "$_id"
+				}
+			},
+			{
+				$project: {
+					_id: 1
+				}
+			},
+			{
+				$sort: {
+					numNFTStarts: -1
+				}
+			},
+			{
+				$limit: 6,
+			}
+		]);
+		response.status(200).json({
+			status: "success",
+			data: plan,
+		})
+	} catch(error) {
+		response.status(404).json({
+			status: "fail",
+			message: error,
+		});
+	}
+};
+
 export { 
 	getAllNfts, 
 	getSingleNFT, 
 	createNFT, 
 	updateNFT, 
 	deleteNFT,
-	aliasTopNFTs
+	aliasTopNFTs,
+	getNFTsStats,
+	getMonthlyPlan,
 };
