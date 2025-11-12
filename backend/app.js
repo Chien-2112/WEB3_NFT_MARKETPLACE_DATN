@@ -10,6 +10,8 @@ import cors from "cors";
 
 import { nftRoutes } from "./routes/nftsRoute.js";
 import { userRoutes } from "./routes/usersRoute.js";
+import { AppError } from "./utils/appError.js";
+import { globalErrorHandler } from "./controllers/errorController.js";
 
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -48,20 +50,26 @@ app.use("/api/v1/nfts", nftRoutes);
 app.use("/api/v1/users", userRoutes);
 
 // HANDLING ERROR.
-app.use((request, response, next) => {
-	const err = new Error("Not Found");
-	err.status = 404;
-	next(err);
+// app.use((request, response, next) => {
+// 	const err = new Error("Not Found");
+// 	err.status = 404;
+// 	next(err);
+// });
+
+app.all(/.*/, (req, res, next) => {
+	// res.status(404).json({
+	//   status: 'fail',
+	//   message: `Cannot find ${req.originalUrl} on this server!`
+	// });
+
+	// const err = new Error(`Can't find ${request.originalUrl} on this server`);
+	// err.status = "fail";
+	// err.statusCode = 404;
+	// next(err);
+
+	next(new AppError(`Can't find ${request.originalUrl} on this server`, 404));
 });
 
-app.use((err, request, response, next) => {
-	const statusCode = err.status || 500;
-	return response.status(statusCode).json({
-		status: "error",
-		code: statusCode,
-		stack: err.stack,
-		message: err.message || "Internal Server Error"
-	})
-});
+
 
 export default app;
