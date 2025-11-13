@@ -49,5 +49,20 @@ const signIn = catchAsync(async(request, response, next) => {
 });
 
 // PROTECTING DATA.
+const protect = catchAsync(async(request, response, next) => {
+	// 1 Check token
+	let token;
+	if(request.headers.authorization && request.headers.authorization.startsWith("Bearer")) {
+		token = request.headers.authorization.split(" ")[1];
+		console.log(token);
+	}
+	if(!token) {
+		return next(new AppError("You are not logged in to get access", 401));
+	}
+	// 2 Validate token
+	// 3 User exist
+	// 4 Change password
+	next();
+})
 
-export { signUp, signIn };
+export { signUp, signIn, protect };

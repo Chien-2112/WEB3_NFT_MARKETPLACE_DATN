@@ -34,6 +34,11 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use((request, response, next) => {
+	request.requestTime = new Date().toISOString();
+	next();
+})
+
 if(process.env.NODE_ENV === "development") {
 	app.use(morgan("dev"));
 }
