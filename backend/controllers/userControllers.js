@@ -1,10 +1,21 @@
+// ---- USERS.
+import { User } from "../models/usersModel.js";
+import { APIFeatures } from "../utils/apiFeatures.js";
+import { catchAsync } from "../utils/catchAsync.js";
+import { AppError } from "../utils/appError.js";
 
-const getAllUsers = (request, response) => {
+const getAllUsers = catchAsync(async(request, response) => {
+	const users = await User.find();
+
 	response.status(500).json({
 		status: "error",
-		message: "Internal server error",
+		results: users.length,
+		data: {
+			users,
+		}
 	});
-}
+});
+
 const getSingleUser = (request, response) => {
 	response.status(500).json({
 		status: "error",

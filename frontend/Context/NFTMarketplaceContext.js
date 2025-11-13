@@ -69,7 +69,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
   // --- HANDLE ACCOUNT CHANGES
   useEffect(() => {
     setCurrentAccount('');
-    if (window.ethereum) {
+    if (typeof window !== 'undefined' && window.ethereum) {
       window.ethereum.on('accountsChanged', (accounts) => {
         if (accounts.length > 0) setCurrentAccount(accounts[0]);
         else setCurrentAccount('');
@@ -77,7 +77,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
     }
   }, []);
 
-  // --- UPLOAD TO IPFS (Dynamic import)
+  // --- UPLOAD TO IPFS (Dynamic import + handled safely for Next.js)
   const uploadToIPFS = async (file) => {
     try {
       if (!file) {
@@ -85,6 +85,7 @@ export const NFTMarketplaceProvider = ({ children }) => {
         return null;
       }
 
+      // Import dynamically to prevent SSR bundling
       const { create } = await import('ipfs-http-client');
 
       const projectId = process.env.NEXT_PUBLIC_INFURA_PROJECT_ID;
