@@ -104,7 +104,7 @@ const deleteNFT = catchAsync(async(request, response) => {
 	if (!nft) {
 		return response.status(404).json({ 
 			status: "fail", 
-			message: "NFT not found" 
+			message: "NFT not found"
 		});
 	}
 	response.status(204).json({

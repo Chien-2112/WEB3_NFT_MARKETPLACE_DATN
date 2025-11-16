@@ -109,14 +109,35 @@ export const NFTMarketplaceProvider = ({ children }) => {
   };
 
   // --- CREATE NFT FUNCTION
-  const createNFT = async (name, price, image, description, router) => {
+  // Lưu đầy đủ metadata: website, royalties, fileSize, category, properties
+  const createNFT = async (
+    name,
+    price,
+    image,
+    description,
+    router,
+    website,
+    royalties,
+    fileSize,
+    category,
+    properties
+  ) => {
     try {
       if (!name || !description || !price || !image) {
         console.log('Missing NFT data');
         return;
       }
 
-      const data = JSON.stringify({ name, description, image });
+      const data = JSON.stringify({
+        name,
+        description,
+        image,
+        website: website || '',
+        royalties: royalties || '',
+        fileSize: fileSize || '',
+        category: category || '',
+        properties: properties || '',
+      });
       const metadataUrl = await uploadToIPFS(data);
       if (!metadataUrl) return console.log('Error uploading metadata');
 

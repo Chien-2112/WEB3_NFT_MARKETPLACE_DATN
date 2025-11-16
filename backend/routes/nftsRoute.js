@@ -8,10 +8,8 @@ import {
 	aliasTopNFTs,
 	getNFTsStats,
 	getMonthlyPlan
-	// checkId,
-	// checkBody
 } from "../controllers/nftControllers.js";
-import { signIn, signUp, protect } from "../controllers/authController.js";
+import { protect, restrictTo } from "../controllers/authController.js";
 const router = express.Router();
 
 // router.param("id", checkId);
@@ -27,10 +25,10 @@ router.route("/monthly-plan/:year").get(getMonthlyPlan);
 
 // ROUTES.
 router.get("/", protect, getAllNfts);
-router.post("/", createNFT);
+router.post("/", protect, restrictTo("admin", "creator"), createNFT);
 
 router.get("/:id", getSingleNFT);
-router.patch("/:id", updateNFT);
-router.delete("/:id", deleteNFT);
+router.patch("/:id", protect, restrictTo("admin", "creator"), updateNFT);
+router.delete("/:id", protect, restrictTo("admin", "guide"), deleteNFT);
 
 export { router as nftRoutes };

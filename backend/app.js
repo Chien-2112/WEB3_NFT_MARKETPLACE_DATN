@@ -26,10 +26,10 @@ app.use(express.json());
 app.use(helmet());
 app.use(compression());
 app.use(
-	cors({
-		origin: "http://localhost:5001",
-		credentials: true
-	})
+  cors({
+    origin: process.env.FRONTEND_ORIGIN || "http://localhost:3000",
+    credentials: true,
+  })
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

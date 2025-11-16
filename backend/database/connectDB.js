@@ -34,4 +34,4 @@ class Database {
 }
 
 const instanceDB = Database.getInstance();
-export default instanceDB; 
+export default instanceDB;
